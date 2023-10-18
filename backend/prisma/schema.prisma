@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  extensions = [uuidOssp(map: "uuid-ossp")]
+}
+
+
+model User {
+  id          String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name        String           @db.VarChar(127)
+  cpf         String           @db.VarChar(11)
+  role        Int?             @default(1)
+  team_id     Int?              @db.Integer
+  password    String           @db.VarChar(127)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime        @updatedAt @default(now())
+  random_messages_user_id      RandomMessage[]  @relation("random_messages_user_idTousers")
+  team_users                   Team?  @relation("user_team_idToteams", fields: [team_id], references: [id])
+  @@map("users")
+}
+
+model RandomMessage {
+  id          String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id     String?          @db.Uuid
+  message     String           @db.Text
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt @default(now())
+  users_random_messages         User?    @relation("random_messages_user_idTousers", fields: [user_id], references: [id])
+  @@map("random_messages")
+}
+
+model TeamMessage {
+  id          String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  message     String           @db.Text
+  team_id     Int              @db.Integer
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt @default(now())
+  team_team_messages           Team?  @relation("team_message_team_idToteams", fields: [team_id], references: [id])
+  @@map("team_messages")
+}
+
+
+model Team {
+  id          Int              @id @default(autoincrement())
+  name        String           @db.VarChar(50)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime?        @updatedAt @default(now())
+  team_messages_team_id        TeamMessage[]  @relation("team_message_team_idToteams")
+  users_team_id                User[]  @relation("user_team_idToteams")
+  @@map("teams")
+}
