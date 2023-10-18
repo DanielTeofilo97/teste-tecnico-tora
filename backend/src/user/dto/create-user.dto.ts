@@ -1,4 +1,5 @@
 import { IsString, MinLength, IsOptional, IsEnum } from 'class-validator';
+import { IsCPF } from 'class-validator-cpf';
 import { Role } from 'src/enums/role.enum';
 
 export class CreateUserDTO {
@@ -7,8 +8,9 @@ export class CreateUserDTO {
   })
   name: string;
 
-  @IsString()
-  @MinLength(8)
+  @IsCPF({
+    message: 'CPF inválido!',
+  })
   cpf: string;
 
   @IsString()

@@ -1,6 +1,6 @@
-import { IsEmail } from 'class-validator';
+import { IsCPF } from 'class-validator-cpf';
 
 export class AuthForgetDTO {
-  @IsEmail()
+  @IsCPF()
   cpf: string;
 }

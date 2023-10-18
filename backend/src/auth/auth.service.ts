@@ -74,11 +74,11 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('Email e/ou senha incorretos.');
+      throw new UnauthorizedException('CPF e/ou senha incorretos.');
     }
 
     if (!(await bcrypt.compare(password, user.password))) {
-      throw new UnauthorizedException('Email e/ou senha incorretos.');
+      throw new UnauthorizedException('CPF e/ou senha incorretos.');
     }
 
     delete user.password;
@@ -94,7 +94,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('Email incorreto.');
+      throw new UnauthorizedException('CPF incorreto.');
     }
     //TODO: Enviar email...
     return true;

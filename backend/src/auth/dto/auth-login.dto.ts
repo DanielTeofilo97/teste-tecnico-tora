@@ -1,7 +1,8 @@
-import { IsEmail, IsString, MinLength } from 'class-validator';
+import { IsString, MinLength } from 'class-validator';
+import { IsCPF } from 'class-validator-cpf';
 
 export class AuthLoginDTO {
-  @IsEmail()
+  @IsCPF()
   cpf: string;
 
   @IsString()
