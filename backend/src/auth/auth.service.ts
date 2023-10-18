@@ -126,7 +126,7 @@ export class AuthService {
     });
 
     if (userExists) {
-      throw new BadRequestException('Email já cadastrado.');
+      throw new BadRequestException('CPF já cadastrado.');
     }
 
     const user = await this.userService.create(data);

@@ -17,8 +17,8 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(200)
-  async login(@Body() { email, password }: AuthLoginDTO) {
-    return this.authService.login(email, password);
+  async login(@Body() { cpf, password }: AuthLoginDTO) {
+    return this.authService.login(cpf, password);
   }
 
   @Post('register')
@@ -27,8 +27,8 @@ export class AuthController {
   }
 
   @Post('forget')
-  async forget(@Body() { email }: AuthForgetDTO) {
-    return this.authService.forget(email);
+  async forget(@Body() { cpf }: AuthForgetDTO) {
+    return this.authService.forget(cpf);
   }
 
   @Post('reset')
