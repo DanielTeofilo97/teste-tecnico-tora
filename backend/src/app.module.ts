@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { MessageModule } from './message/message.module';
+import { TeamModule } from './team/team.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MessageModule } from './message/message.module';
     forwardRef(() => UserModule),
     forwardRef(() => AuthModule),
     MessageModule,
+    TeamModule,
   ],
   controllers: [AppController],
   providers: [

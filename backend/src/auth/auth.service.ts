@@ -68,6 +68,7 @@ export class AuthService {
       select: {
         id: true,
         name: true,
+        team_id: true,
         password: true,
         role: true,
       },
@@ -82,38 +83,6 @@ export class AuthService {
     }
 
     delete user.password;
-
-    return this.createToken(user);
-  }
-
-  async forget(cpf: string) {
-    const user = await this.prisma.user.findFirst({
-      where: {
-        cpf,
-      },
-    });
-
-    if (!user) {
-      throw new UnauthorizedException('CPF incorreto.');
-    }
-    //TODO: Enviar email...
-    return true;
-  }
-
-  async reset(password: string, token: string) {
-    //TODO: Verificar Token
-
-    const id = 'asdasd';
-    console.log(token);
-
-    const user = await this.prisma.user.update({
-      data: {
-        password,
-      },
-      where: {
-        id: id,
-      },
-    });
 
     return this.createToken(user);
   }
@@ -134,6 +103,12 @@ export class AuthService {
     const userCreated = await this.prisma.user.findFirst({
       where: {
         id: user.id,
+      },
+      select: {
+        id: true,
+        name: true,
+        team_id: true,
+        role: true,
       },
     });
 

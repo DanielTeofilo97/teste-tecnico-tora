@@ -26,6 +26,7 @@ model User {
 
 model RandomMessage {
   id          String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  api_id      String?          @db.Text
   user_id     String?          @db.Uuid
   message     String           @db.Text
   createdAt   DateTime         @default(now())
