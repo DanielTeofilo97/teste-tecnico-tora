@@ -23,10 +23,11 @@ export default function Home() {
 
     if (result?.error) {
       const json_data = JSON.parse(result.error);
+      console.log(json_data);
       toast({
         variant: "destructive",
         title: "Uh oh! Algo deu errado.",
-        description: json_data.errors.message[0],
+        description: Array.isArray(json_data.errors.message)?json_data.errors.message[0]:json_data.errors.message,
       })
       
       return
