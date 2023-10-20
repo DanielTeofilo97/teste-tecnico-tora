@@ -71,6 +71,7 @@ export class AuthService {
         team_id: true,
         password: true,
         role: true,
+        team_users: true,
       },
     });
 
@@ -109,6 +110,7 @@ export class AuthService {
         name: true,
         team_id: true,
         role: true,
+        team_users: true,
       },
     });
 
