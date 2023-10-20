@@ -2,15 +2,11 @@
 
 import {
   Dices,
-  HomeIcon,
-  ListOrderedIcon,
   LogInIcon,
   LogOutIcon,
   MenuIcon,
   MessageSquare,
   MessageSquarePlus,
-  PercentIcon,
-  ShoppingCartIcon,
   UserPlus2,
 } from "lucide-react";
 import { Button } from "./button";
