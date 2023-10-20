@@ -14,7 +14,7 @@ export class CreateUserDTO {
   cpf: string;
 
   @IsString()
-  @MinLength(8)
+  @MinLength(8, { message: 'A senha deve ter mais ou igual a 8 caracteres' })
   password: string;
 
   @IsOptional()
