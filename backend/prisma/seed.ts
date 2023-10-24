@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -16,11 +17,12 @@ async function main() {
     });
 
     // Criando adm
+    const password = await bcrypt.hash('12345678', await bcrypt.genSalt());
     await prisma.user.create({
       data: {
         name: 'Galvão Alves',
         cpf: '51103282000',
-        password: '123456',
+        password: password,
         role: 0,
       },
     });
