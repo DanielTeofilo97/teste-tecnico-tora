@@ -66,7 +66,7 @@ export default function Home() {
   }
 
   return (
-    <div style={{ display: 'flex', height: '100vh', flexDirection: 'column', margin: '30px auto', padding: '0px 10px 0px 10px', justifyContent: 'center', maxWidth: '400px' }}>
+    <div style={{ display: 'flex', height: '90vh', flexDirection: 'column', margin: '30px auto', padding: '0px 10px 0px 10px', justifyContent: 'center', maxWidth: '400px' }}>
       <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: '40px' }}>
         <p style={{ fontSize: '30px' }} className="text-lg font-semibold">
           <span className="text-primary">FJ</span> Company

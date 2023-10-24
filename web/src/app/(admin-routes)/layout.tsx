@@ -4,6 +4,7 @@ import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
+import { Toaster } from "@/components/ui/toaster";
 
 interface PrivateLayoutProps {
 	children: ReactNode

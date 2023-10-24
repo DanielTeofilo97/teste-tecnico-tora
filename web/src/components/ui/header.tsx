@@ -55,8 +55,17 @@ const Header = () => {
                 <div className="flex flex-col">
                   <p className="font-medium">{data.user.name}</p>
                   {data.user.role != 0 ?
-                    <p className="text-sm opacity-75"> Equipe : {data.user.team_users.name}</p> :
-                    <p className="text-sm opacity-75"> Administrador</p>}
+                    data.user.role ===1?
+                    <>
+                    <p className="text-sm opacity-75"> Acesso : Lider</p>
+                    <p className="text-sm opacity-75"> Equipe : {data.user.team_users.name}</p>
+                    </>
+                    :
+                    <>
+                    <p className="text-sm opacity-75"> Acesso : Colaborador </p>
+                    <p className="text-sm opacity-75"> Equipe : {data.user.team_users.name}</p>
+                    </>       
+                    :<p className="text-sm opacity-75"> Acesso : Administrador</p>}
                 </div>
               </div>
 
@@ -89,7 +98,7 @@ const Header = () => {
 
             {data?.user.role == 2 ?
               <SheetClose asChild>
-                <Link href="/catalog">
+                <Link href="/message/random">
                   <Button variant="outline" className="w-full justify-start gap-2">
                     <Dices size={20} />
                     Mensagens Aleatórias
@@ -101,7 +110,7 @@ const Header = () => {
 
             {data?.user.role == 2 ?
               <SheetClose asChild>
-                <Link href="/catalog">
+                <Link href="/message/team">
                   <Button variant="outline" className="w-full justify-start gap-2">
                     <MessageSquare size={20} />
                     Mensagens da Equipe
@@ -111,9 +120,9 @@ const Header = () => {
               : <></>
             }
 
-            {data?.user.role == 2 ?
+            {data?.user.role == 1 ?
               <SheetClose asChild>
-                <Link href="/catalog">
+                <Link href="/message">
                   <Button variant="outline" className="w-full justify-start gap-2">
                     <MessageSquarePlus size={20} />
                     Cadastro de Mensagens
@@ -123,9 +132,9 @@ const Header = () => {
               : <></>
             }
 
-            {data?.user.role == 2 ?
+            {data?.user.role == 0 ?
               <SheetClose asChild>
-                <Link href="/catalog">
+                <Link href="/users">
                   <Button variant="outline" className="w-full justify-start gap-2">
                     <UserPlus2 size={20} />
                     Usuários
@@ -140,7 +149,7 @@ const Header = () => {
         </SheetContent>
       </Sheet>
 
-      <Link href="/">
+      <Link href="/admin">
         <h1 className="text-lg font-semibold">
           <span className="text-primary">FJ</span> Company
         </h1>

@@ -23,6 +23,14 @@ export class UserService {
         name: true,
         cpf: true,
         role: true,
+        team_users: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        role: 'asc',
       },
     });
   }

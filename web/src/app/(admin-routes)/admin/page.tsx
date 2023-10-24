@@ -1,6 +1,5 @@
 import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route"
 import { getServerSession } from "next-auth"
-import { toast } from "react-toastify"
 
 
 export default async function Admin(){

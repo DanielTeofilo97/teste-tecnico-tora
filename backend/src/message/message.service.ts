@@ -34,6 +34,9 @@ export class MessageService {
       where: {
         team_id,
       },
+      orderBy: {
+        updatedAt: 'desc',
+      },
     });
     if (messages.length > 0) {
       return messages;
@@ -45,16 +48,11 @@ export class MessageService {
   }
 
   async random(user_id: string) {
-    const targetTimeZone = 'Etc/GMT';
-    const nowInTargetZone = utcToZonedTime(new Date(), targetTimeZone);
-    const startOfToday = startOfDay(nowInTargetZone);
-    const endOfToday = endOfDay(nowInTargetZone);
-    const startFormatted = format(startOfToday, "yyyy-MM-dd'T'HH:mm:ssXXX", {
-      timeZone: targetTimeZone,
-    });
-    const endFormatted = format(endOfToday, "yyyy-MM-dd'T'HH:mm:ssXXX", {
-      timeZone: targetTimeZone,
-    });
+    const day = new Date();
+    const startOfToday = startOfDay(day);
+    const endOfToday = endOfDay(day);
+    const startFormatted = format(startOfToday, "yyyy-MM-dd'T'HH:mm:ssXXX");
+    const endFormatted = format(endOfToday, "yyyy-MM-dd'T'HH:mm:ssXXX");
     const count = await this.prisma.randomMessage.count({
       where: {
         user_id: user_id,
@@ -110,10 +108,17 @@ export class MessageService {
             api_id: advice.slip.id.toString(),
           },
         });
+        const translateMessage = await this.adviceService.getTranslateOfAdvice(
+          advice.slip.advice,
+        );
         return {
-          message: advice.slip.advice,
+          message: {
+            en: advice.slip.advice,
+            pt: translateMessage.data.translations[0].translatedText,
+          },
         };
       } catch (error) {
+        console.log(error);
         throw new BadRequestException('Erro ao buscar mensagem aleátoria');
       }
     }

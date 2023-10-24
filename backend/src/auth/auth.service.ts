@@ -21,21 +21,21 @@ export class AuthService {
   ) {}
 
   createToken(user: any) {
+    user.token = this.jwtService.sign(
+      {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+      {
+        expiresIn: '7 days',
+        subject: user.id,
+        issuer: this.issuer,
+        audience: this.audience,
+      },
+    );
     return {
       user,
-      token: this.jwtService.sign(
-        {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-        },
-        {
-          expiresIn: '7 days',
-          subject: user.id,
-          issuer: this.issuer,
-          audience: this.audience,
-        },
-      ),
     };
   }
 

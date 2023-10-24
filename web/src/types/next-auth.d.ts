@@ -10,6 +10,7 @@ declare module 'next-auth' {
 			team_users : {
 				name:string
 			}
+			token:string
 		}
 	}
 }

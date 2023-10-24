@@ -41,6 +41,7 @@ export class MessageController {
     return this.messageService.findAll(req.user.team_id);
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.messageService.findOne(id);
