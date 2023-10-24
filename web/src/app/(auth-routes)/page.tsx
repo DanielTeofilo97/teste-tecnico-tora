@@ -3,7 +3,7 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useToast } from "@/components/ui/use-toast"
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button"
@@ -19,7 +19,6 @@ import { Loader } from "lucide-react";
 import { isValidCPF } from "@/utils/validCpf";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import InputMask from 'react-input-mask';
 
 const formSchema = z.object({
   cpf: z.string().refine((value) => isValidCPF(value), {
@@ -48,7 +47,7 @@ export default function Home() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     const result = await signIn('credentials', {
-      cpf: values.cpf.replaceAll('.','').replace('-',''),
+      cpf: values.cpf.replaceAll('.', '').replace('-', ''),
       password: values.password,
       redirect: false
     })
@@ -63,6 +62,25 @@ export default function Home() {
       return
     }
     router.replace('/admin')
+  }
+
+  function inputMaskCpf(event: ChangeEvent<HTMLInputElement>): void {
+    let inputCpf = event.target.value.replace(/\D/g, '');
+
+    let formattedCpf = '';
+
+    inputCpf = inputCpf.substring(0, 11);
+
+    for (let i = 0; i < inputCpf.length; i++) {
+      if (i === 3 || i === 6) {
+        formattedCpf += '.';
+      } else if (i === 9) {
+        formattedCpf += '-';
+      }
+      formattedCpf += inputCpf[i];
+    }
+    event.target.value = formattedCpf;
+    form.setValue("cpf", formattedCpf);
   }
 
   return (
@@ -80,9 +98,7 @@ export default function Home() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <InputMask mask="999.999.999-99" maskChar={null} value={field.value} onChange={field.onChange}>
-                    {(inputProps: any) => <Input placeholder="CPF" {...inputProps} />}
-                  </InputMask>
+                  <Input placeholder="CPF" onChange={inputMaskCpf} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -112,7 +128,7 @@ export default function Home() {
         </form>
       </Form>
       <Separator className="my-4" />
-      <div style={{ display: 'flex',justifyContent:'center'}}>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Link href="/register">
           <p className="text-sm font-semibold">
             Criar conta colaborador

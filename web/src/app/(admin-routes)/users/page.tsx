@@ -3,11 +3,10 @@
 import * as z from "zod"
 import HeaderPage from "@/components/styled/header-page";
 import { Button } from "@/components/ui/button";
-import { Loader, Pencil, Plus, Trash2 } from "lucide-react";
+import { Loader, Plus, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
     Sheet,
     SheetContent,
@@ -26,7 +25,7 @@ import {
     FormItem,
     FormMessage,
 } from "@/components/ui/form"
-import { createRef, useEffect, useState } from "react";
+import { ChangeEvent, createRef, useEffect, useState } from "react";
 import { Separator } from "@radix-ui/react-separator";
 import {
     Table,
@@ -56,7 +55,6 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { isValidCPF } from "@/utils/validCpf";
-import InputMask from 'react-input-mask';
 import axios from 'axios';
 
 const formSchema = z.object({
@@ -79,8 +77,8 @@ interface Users {
     name: string
     cpf: string
     role: number
-    team_users : {
-        name : string
+    team_users: {
+        name: string
     }
 }
 
@@ -216,6 +214,24 @@ export default function Message() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    function inputMaskCpf(event: ChangeEvent<HTMLInputElement>): void {
+        let inputCpf = event.target.value.replace(/\D/g, '');
+
+        let formattedCpf = '';
+
+        inputCpf = inputCpf.substring(0, 11);
+
+        for (let i = 0; i < inputCpf.length; i++) {
+            if (i === 3 || i === 6) {
+                formattedCpf += '.';
+            } else if (i === 9) {
+                formattedCpf += '-';
+            }
+            formattedCpf += inputCpf[i];
+        }
+        event.target.value = formattedCpf;
+        form.setValue("cpf", formattedCpf);
+    }
 
 
     return (
@@ -256,9 +272,7 @@ export default function Message() {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormControl>
-                                                <InputMask mask="999.999.999-99" maskChar={null} value={field.value} onChange={field.onChange}>
-                                                    {(inputProps: any) => <Input placeholder="CPF" {...inputProps} />}
-                                                </InputMask>
+                                                <Input placeholder="CPF" onChange={inputMaskCpf} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -330,12 +344,12 @@ export default function Message() {
                                 <TableCell>{user.name}</TableCell>
                                 <TableCell>{user.cpf}</TableCell>
                                 <TableCell>{Roles[user.role]}</TableCell>
-                                <TableCell>{user.team_users?user.team_users.name:'ADM'}</TableCell>
+                                <TableCell>{user.team_users ? user.team_users.name : 'ADM'}</TableCell>
                                 <TableCell className="text-right">
                                     <div className="flex flex-row gap-2 justify-end" >
                                         <Dialog open={openDelete} onOpenChange={setOpenDelete}>
                                             <DialogTrigger asChild>
-                                                <Button onClick={() => { setId(user.id);setName(user.name) }} variant="outline" size="icon">
+                                                <Button onClick={() => { setId(user.id); setName(user.name) }} variant="outline" size="icon">
                                                     <Trash2 className="h-4 w-4" />
                                                 </Button>
                                             </DialogTrigger>

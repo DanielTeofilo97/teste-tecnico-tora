@@ -3,7 +3,7 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useToast } from "@/components/ui/use-toast"
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button"
@@ -26,7 +26,6 @@ import { Loader } from "lucide-react";
 import { isValidCPF } from "@/utils/validCpf";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import InputMask from 'react-input-mask';
 import axios from 'axios';
 
 const formSchema = z.object({
@@ -39,9 +38,9 @@ const formSchema = z.object({
     password: z.string().min(8, {
         message: "A senha deve ter pelo menos 8 caracteres.",
     }),
-    team_id: z.string().min(1,{
-            message: "Selecione uma equipe para exibir.",
-        })
+    team_id: z.string().min(1, {
+        message: "Selecione uma equipe para exibir.",
+    })
 })
 
 
@@ -117,6 +116,25 @@ export default function Home() {
         }
     }
 
+    function inputMaskCpf(event: ChangeEvent<HTMLInputElement>): void {
+        let inputCpf = event.target.value.replace(/\D/g, ''); 
+
+        let formattedCpf = '';
+
+        inputCpf = inputCpf.substring(0,11);
+
+        for (let i = 0; i < inputCpf.length; i++) {
+            if (i === 3 || i === 6) {
+                formattedCpf += '.';
+            } else if (i === 9) {
+                formattedCpf += '-';
+            }
+            formattedCpf += inputCpf[i];
+        }
+        event.target.value=formattedCpf;
+        form.setValue("cpf",formattedCpf);
+    }
+
     return (
         <div style={{ display: 'flex', height: '100vh', flexDirection: 'column', margin: '30px auto', padding: '0px 10px 0px 10px', justifyContent: 'center', maxWidth: '400px' }}>
             <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: '40px' }}>
@@ -144,9 +162,7 @@ export default function Home() {
                         render={({ field }) => (
                             <FormItem>
                                 <FormControl>
-                                    <InputMask mask="999.999.999-99" maskChar={null} value={field.value} onChange={field.onChange}>
-                                        {(inputProps: any) => <Input placeholder="CPF" {...inputProps} />}
-                                    </InputMask>
+                                    <Input placeholder="CPF" onChange={inputMaskCpf} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
