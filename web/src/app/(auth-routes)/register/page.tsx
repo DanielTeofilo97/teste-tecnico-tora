@@ -66,7 +66,7 @@ export default function Home() {
         setLoading(true);
         try {
             const response = await axios.post(
-                'http://localhost:3001/auth/register',
+                `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
                 {
                     name: values.name,
                     cpf: values.cpf.replaceAll('.', '').replace('-', ''),

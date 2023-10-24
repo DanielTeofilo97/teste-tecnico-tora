@@ -34,14 +34,13 @@ export default function MessageRandom() {
 		redirect('/403')
 	}
 
-
 	async function getRandomMessage() {
 		setClassName('animate-spin');
 		setLoading(true);
 		setHasMessage(false);
 		try {
 			const response = await axios.get<any>(
-				'http://localhost:3001/messages/random',
+				`${process.env.NEXT_PUBLIC_API_URL}/messages/random`,
 				{
 					headers: {
 						Accept: 'application/json',

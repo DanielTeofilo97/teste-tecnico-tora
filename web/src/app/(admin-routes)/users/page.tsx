@@ -118,7 +118,7 @@ export default function Message() {
         setLoading(true);
         try {
             const response = await axios.post(
-                'http://localhost:3001/auth/register',
+                `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
                 {
                     name: values.name,
                     cpf: values.cpf.replaceAll('.', '').replace('-', ''),
@@ -159,7 +159,7 @@ export default function Message() {
     async function getUsers() {
         try {
             const response = await axios.get<any>(
-                'http://localhost:3001/users',
+                `${process.env.NEXT_PUBLIC_API_URL}/users`,
                 {
                     headers: {
                         Accept: 'application/json',
@@ -177,7 +177,7 @@ export default function Message() {
         setLoading(true);
         try {
             const response = await axios.delete<any>(
-                `http://localhost:3001/users/${id}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/users/${id}`,
                 {
                     headers: {
                         Accept: 'application/json',

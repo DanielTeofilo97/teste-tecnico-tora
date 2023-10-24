@@ -88,7 +88,7 @@ export default function Message() {
 		setLoading(true);
 		try {
 			const response = await axios.post<any>(
-				'http://localhost:3001/messages',
+				`${process.env.NEXT_PUBLIC_API_URL}/messages`,
 				{
 					message: values.message
 				},
@@ -123,7 +123,7 @@ export default function Message() {
 	async function getMessages() {
 		try {
 			const response = await axios.get<any>(
-				'http://localhost:3001/messages',
+				`${process.env.NEXT_PUBLIC_API_URL}/messages`,
 				{
 					headers: {
 						Accept: 'application/json',
@@ -141,7 +141,7 @@ export default function Message() {
 		setLoading(true);
 		try {
 			const response = await axios.delete<any>(
-				`http://localhost:3001/messages/${id}`,
+				`${process.env.NEXT_PUBLIC_API_URL}/messages/${id}`,
 				{
 					headers: {
 						Accept: 'application/json',
@@ -176,7 +176,7 @@ export default function Message() {
 		setLoading(true);
 		try {
 			const response = await axios.patch<any>(
-				`http://localhost:3001/messages/${id}`,
+				`${process.env.NEXT_PUBLIC_API_URL}/messages/${id}`,
 				{
 					message: values.message
 				},

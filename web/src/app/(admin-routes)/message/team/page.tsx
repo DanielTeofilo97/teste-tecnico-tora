@@ -38,7 +38,7 @@ export default function MessageTeam() {
 		setLoad(false);
 		try {
 			const response = await axios.get<any>(
-				'http://localhost:3001/messages',
+				`${process.env.NEXT_PUBLIC_API_URL}/messages`,
 				{
 					headers: {
 						Accept: 'application/json',
@@ -92,8 +92,6 @@ export default function MessageTeam() {
 				</>
 				: <></>
 			}
-
-
 		</div>
 	)
 }
